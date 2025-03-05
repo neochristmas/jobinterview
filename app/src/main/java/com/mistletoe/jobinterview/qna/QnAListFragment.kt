@@ -7,14 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mistletoe.jobinterview.data.QnA
 import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.ui.AddActivity
+import kotlinx.coroutines.launch
 
 class QnAListFragment : Fragment(), QnAListAdapter.AddItemClickListener {
 
     private lateinit var binding: FragmentQnalistBinding
     private lateinit var adapter: QnAListAdapter
+    private var qnaList: List<QnA> = listOf()
+    private val viewModel: QnAListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,42 +30,42 @@ class QnAListFragment : Fragment(), QnAListAdapter.AddItemClickListener {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setData()
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        setQnAList()
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        setQnAList()
     }
 
-    /*
-        TODO DB에서 데이터 호출해 셋팅.
-     */
-    private fun setData() {
-        val parentList = listOf("Tell me about yourself", "Android")
-        val childList = hashMapOf(
-            "Tell me about yourself" to listOf(
-                QnA(
-                    tag = "myself",
-                    question = "What is your name?",
-                    answer = "My name is ..."
-                )
-            ),
-            "Android" to listOf(
-                QnA(
-                    tag = "android",
-                    question = "What is android?",
-                    answer = "Android is an open-source mobile operating system developed by Google, based on the Linux kernel. It is designed for touchscreen devices and provides a flexible framework for developers to build applications using Kotlin, Java, or C++."
-                ),
-                QnA(tag = "android", question = "What is binding?", answer = "Binding is ..."),
+    private fun setQnAList() {
+        lifecycleScope.launch {
+            qnaList = viewModel.fetchQnAs()
+
+            val parentList = listOf("Tell me about yourself", "Android")
+            val childList = hashMapOf(
+                "Tell me about yourself" to qnaList.filter { it.tag == "Tell me about yourself" },
+                "Android" to qnaList.filter { it.tag == "android" },
             )
-        )
 
-        adapter = QnAListAdapter(requireContext(), parentList, childList, binding, this)
-        binding.expandCategory.setAdapter(adapter)
+            adapter = QnAListAdapter(
+                requireContext(),
+                parentList,
+                childList,
+                binding,
+                this@QnAListFragment
+            )
+            binding.expandCategory.setAdapter(adapter)
+        }
 
     }
 
-    override fun moveAddScreen() {
+    override fun moveAddScreen(category: String) {
         Log.d("IJ", "Move to Add Screen...")
         val intent = Intent(requireContext(), AddActivity::class.java)
+        intent.putExtra("category", category)
         startActivity(intent)
     }
 }

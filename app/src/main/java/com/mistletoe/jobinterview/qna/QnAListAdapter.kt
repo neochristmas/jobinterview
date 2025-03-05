@@ -72,7 +72,7 @@ class QnAListAdapter(
         }
 
         binding.buttonAdd.setOnClickListener {
-            listener.moveAddScreen()
+            listener.moveAddScreen(parentList[groupPosition])
         }
 
         return binding.root
@@ -104,6 +104,6 @@ class QnAListAdapter(
     }
 
     interface AddItemClickListener {
-        fun moveAddScreen()
+        fun moveAddScreen(category: String)
     }
 }
