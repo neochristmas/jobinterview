@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_list"
+        android:icon="@drawable/ic_list"
+        android:title="@string/qnas" />
+    <item
+        android:id="@+id/nav_bookmark"
+        android:icon="@drawable/ic_bookmark"
+        android:title="@string/bookmark" />
+</menu>
