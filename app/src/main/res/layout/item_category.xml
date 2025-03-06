@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingVertical="15dp">
 
     <TextView
         android:id="@+id/text_title"
@@ -29,12 +30,15 @@
         app:layout_constraintEnd_toStartOf="@id/button_practice"
         app:layout_constraintTop_toTopOf="@id/text_title" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_practice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:text="@string/practice"
+        android:background="@color/white"
+        android:contentDescription="@string/practice"
+        android:padding="0dp"
+        android:src="@drawable/ic_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_arrow" />
 
@@ -43,9 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:clickable="false"
         android:contentDescription="@string/desc_expand"
-        android:focusable="false"
         android:padding="0dp"
         android:src="@drawable/ic_arrow_down"
         app:layout_constraintBottom_toBottomOf="parent"

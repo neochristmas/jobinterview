@@ -17,7 +17,7 @@ class QnAListAdapter(
     private val parentList: List<String>,
     private val childList: HashMap<String, List<QnA>>,
     private val qnaListBinding: FragmentQnalistBinding,
-    private val listener: AddItemClickListener
+    private val listener: ItemClickListener
 ) : BaseExpandableListAdapter() {
 
     override fun getGroupCount(): Int = parentList.size
@@ -90,6 +90,18 @@ class QnAListAdapter(
 
         binding.textQuestion.text = getChild(groupPosition, childPosition).question
         binding.textAnswer.text = getChild(groupPosition, childPosition).answer
+        binding.toggleBookmark.isChecked = getChild(groupPosition, childPosition).isBookmarked
+        binding.toggleBookmark.setOnClickListener {
+            Log.d("IJ", "Click bookmark...")
+            val updateBookmark = getChild(groupPosition, childPosition).copy(
+                isBookmarked = !getChild(
+                    groupPosition,
+                    childPosition
+                ).isBookmarked
+            )
+            listener.onBookmarkUpdated(updateBookmark)
+        }
+
         return binding.root
     }
 
@@ -103,7 +115,9 @@ class QnAListAdapter(
         }
     }
 
-    interface AddItemClickListener {
+    interface ItemClickListener {
         fun moveAddScreen(category: String)
+
+        fun onBookmarkUpdated(qna: QnA)
     }
 }

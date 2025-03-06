@@ -9,4 +9,5 @@ data class QnA(
     val tag: String = "",
     val question: String = "",
     val answer: String = "",
+    val isBookmarked: Boolean = false
 )

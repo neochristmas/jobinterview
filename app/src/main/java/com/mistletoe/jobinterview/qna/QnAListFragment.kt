@@ -14,7 +14,7 @@ import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.ui.AddActivity
 import kotlinx.coroutines.launch
 
-class QnAListFragment : Fragment(), QnAListAdapter.AddItemClickListener {
+class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
     private lateinit var binding: FragmentQnalistBinding
     private lateinit var adapter: QnAListAdapter
@@ -47,7 +47,7 @@ class QnAListFragment : Fragment(), QnAListAdapter.AddItemClickListener {
             val parentList = listOf("Tell me about yourself", "Android")
             val childList = hashMapOf(
                 "Tell me about yourself" to qnaList.filter { it.tag == "Tell me about yourself" },
-                "Android" to qnaList.filter { it.tag == "android" },
+                "Android" to qnaList.filter { it.tag == "Android" },
             )
 
             adapter = QnAListAdapter(
@@ -67,5 +67,10 @@ class QnAListFragment : Fragment(), QnAListAdapter.AddItemClickListener {
         val intent = Intent(requireContext(), AddActivity::class.java)
         intent.putExtra("category", category)
         startActivity(intent)
+    }
+
+    override fun onBookmarkUpdated(qna: QnA) {
+        Log.d("IJ", "Update bookmark...")
+        viewModel.updateQnA(qna)
     }
 }

@@ -6,6 +6,6 @@
         android:title="@string/qnas" />
     <item
         android:id="@+id/nav_bookmark"
-        android:icon="@drawable/ic_bookmark"
+        android:icon="@drawable/ic_bookmarks"
         android:title="@string/bookmark" />
 </menu>
