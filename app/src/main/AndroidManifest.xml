@@ -27,6 +27,10 @@
             android:name=".ui.AddActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity
+            android:name=".ui.PracticeActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
     </application>
 
 </manifest>

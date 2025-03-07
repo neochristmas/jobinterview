@@ -57,25 +57,34 @@ class QnAListAdapter(
             Log.d("IJ", "isExpanded...? $isExpanded")
         }
 
-        binding.textTitle.text = parentList[groupPosition]
-        binding.buttonArrow.setOnClickListener {
-            Log.d("IJ", "Clicked...? $isExpanded")
-            if (isExpanded) {
-                binding.buttonArrow.setImageResource(R.drawable.ic_arrow_up)
-                qnaListBinding.expandCategory.collapseGroup(groupPosition) // 그룹이 열려있으면 닫기
-            } else {
-                binding.buttonArrow.setImageResource(R.drawable.ic_arrow_down)
-                qnaListBinding.expandCategory.expandGroup(groupPosition) // 그룹이 닫혀있으면 열기
-            }
+        binding.apply {
+            textTitle.text = parentList[groupPosition]
+
+            buttonArrow.setOnClickListener {
+                Log.d("IJ", "Clicked...? $isExpanded")
+                if (isExpanded) {
+                    buttonArrow.setImageResource(R.drawable.ic_arrow_up)
+                    qnaListBinding.expandCategory.collapseGroup(groupPosition) // 그룹이 열려있으면 닫기
+                } else {
+                    binding.buttonArrow.setImageResource(R.drawable.ic_arrow_down)
+                    qnaListBinding.expandCategory.expandGroup(groupPosition) // 그룹이 닫혀있으면 열기
+                }
 //            setArrow(binding, isExpanded)
 
+            }
+
+            buttonAdd.setOnClickListener {
+                listener.moveToAddScreen(parentList[groupPosition])
+            }
+
+            buttonPractice.setOnClickListener {
+                listener.moveToPracticeScreen(parentList[groupPosition])
+            }
+
+            return root
         }
 
-        binding.buttonAdd.setOnClickListener {
-            listener.moveAddScreen(parentList[groupPosition])
-        }
 
-        return binding.root
     }
 
     override fun getChildView(
@@ -86,23 +95,30 @@ class QnAListAdapter(
         parent: ViewGroup?
     ): View {
         val inflater = LayoutInflater.from(context)
-        val binding = ItemQnaBinding.inflate(inflater, parent, false)
+        ItemQnaBinding.inflate(inflater, parent, false).apply {
+            textQuestion.text = getChild(groupPosition, childPosition).question
+            textAnswer.text = getChild(groupPosition, childPosition).answer
 
-        binding.textQuestion.text = getChild(groupPosition, childPosition).question
-        binding.textAnswer.text = getChild(groupPosition, childPosition).answer
-        binding.toggleBookmark.isChecked = getChild(groupPosition, childPosition).isBookmarked
-        binding.toggleBookmark.setOnClickListener {
-            Log.d("IJ", "Click bookmark...")
-            val updateBookmark = getChild(groupPosition, childPosition).copy(
-                isBookmarked = !getChild(
-                    groupPosition,
-                    childPosition
-                ).isBookmarked
-            )
-            listener.onBookmarkUpdated(updateBookmark)
+            toggleBookmark.isChecked = getChild(groupPosition, childPosition).isBookmarked
+            toggleBookmark.setOnClickListener {
+                Log.d("IJ", "Click bookmark...")
+                val updateBookmark = getChild(groupPosition, childPosition).copy(
+                    isBookmarked = !getChild(
+                        groupPosition,
+                        childPosition
+                    ).isBookmarked
+                )
+                listener.onBookmarkUpdated(updateBookmark)
+            }
+
+            root.setOnClickListener {
+                listener.onQnADeleted(getChild(groupPosition, childPosition))
+            }
+
+            return root
         }
 
-        return binding.root
+
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
@@ -116,8 +132,12 @@ class QnAListAdapter(
     }
 
     interface ItemClickListener {
-        fun moveAddScreen(category: String)
+        fun moveToAddScreen(category: String)
+
+        fun moveToPracticeScreen(category: String)
 
         fun onBookmarkUpdated(qna: QnA)
+
+        fun onQnADeleted(qna: QnA)
     }
 }

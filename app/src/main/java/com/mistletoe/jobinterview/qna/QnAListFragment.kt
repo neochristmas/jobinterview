@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mistletoe.jobinterview.data.QnA
 import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.ui.AddActivity
+import com.mistletoe.jobinterview.ui.PracticeActivity
 import kotlinx.coroutines.launch
 
 class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
@@ -62,15 +64,41 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
     }
 
-    override fun moveAddScreen(category: String) {
+    override fun moveToAddScreen(category: String) {
         Log.d("IJ", "Move to Add Screen...")
         val intent = Intent(requireContext(), AddActivity::class.java)
         intent.putExtra("category", category)
         startActivity(intent)
     }
 
+    override fun moveToPracticeScreen(category: String) {
+        Log.d("IJ", "Move to Practice Screen...")
+        val filteredQnAList: ArrayList<QnA> = qnaList.filter { it.tag == category }
+            .toCollection(ArrayList())
+
+        val intent = Intent(requireContext(), PracticeActivity::class.java)
+        intent.putParcelableArrayListExtra("qna_list", filteredQnAList)
+        startActivity(intent)
+    }
+
     override fun onBookmarkUpdated(qna: QnA) {
         Log.d("IJ", "Update bookmark...")
         viewModel.updateQnA(qna)
+    }
+
+    override fun onQnADeleted(qna: QnA) {
+        Log.d("IJ", "Delete QnA...")
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage("Do you really want to delete this QnA?")
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Delete") { dialog, _ ->
+                viewModel.deleteQnA(qna)
+                dialog.dismiss()
+                setQnAList()
+            }
+            .show()
     }
 }

@@ -15,9 +15,15 @@ class QnAListViewModel : ViewModel() {
         return qnaList
     }
 
-    fun updateQnA(qnA: QnA) {
+    fun updateQnA(qna: QnA) {
         viewModelScope.launch {
-            qnaDao.updateQnA(qnA)
+            qnaDao.updateQnA(qna)
+        }
+    }
+
+    fun deleteQnA(qna: QnA) {
+        viewModelScope.launch {
+            qnaDao.deleteQnA(qna)
         }
     }
 }
