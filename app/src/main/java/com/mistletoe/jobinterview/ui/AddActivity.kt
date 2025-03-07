@@ -46,7 +46,7 @@ class AddActivity : AppCompatActivity() {
                     buttonSave.isEnabled = isBothFilled
 
                     if (isBothFilled) {
-                        buttonSave.setBackgroundColor(getResources().getColor(R.color.sky_blue))
+                        buttonSave.setBackgroundColor(getResources().getColor(R.color.light_blue))
                     } else {
                         buttonSave.setBackgroundColor(getResources().getColor(R.color.grey))
                     }

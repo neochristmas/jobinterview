@@ -2,6 +2,7 @@ package com.mistletoe.jobinterview.ui
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.data.QnA
@@ -48,7 +49,6 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             speakOut()
         }
 
-        binding.buttonComplete.setBackgroundColor(getResources().getColor(R.color.sky_blue))
         binding.buttonComplete.setOnClickListener {
             finish()
         }
@@ -89,9 +89,17 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             getString(R.string.practice_current_index, currentIdx + 1, qnaList.size)
 
         // 첫 번째 아이템이면 이전 버튼 비활성화
-        binding.buttonPrev.isEnabled = currentIdx > 0
+        if (currentIdx > 0) {
+            binding.buttonPrev.visibility = View.VISIBLE
+        } else {
+            binding.buttonPrev.visibility = View.INVISIBLE
+        }
 
         // 마지막 아이템이면 다음 버튼 비활성화
-        binding.buttonNext.isEnabled = currentIdx < qnaList.size - 1
+        if (currentIdx < qnaList.size - 1) {
+            binding.buttonNext.visibility = View.VISIBLE
+        } else {
+            binding.buttonNext.visibility = View.INVISIBLE
+        }
     }
 }

@@ -96,7 +96,7 @@
             android:insetBottom="0dp"
             android:minHeight="60dp"
             android:text="@string/cancel"
-            android:textColor="@color/sky_blue"
+            android:textColor="@color/light_blue"
             app:cornerRadius="0dp" />
 
         <com.google.android.material.button.MaterialButton
