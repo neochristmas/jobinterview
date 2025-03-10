@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import com.mistletoe.jobinterview.R
-import com.mistletoe.jobinterview.data.QnA
+import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.databinding.ItemCategoryBinding
 import com.mistletoe.jobinterview.databinding.ItemQnaBinding

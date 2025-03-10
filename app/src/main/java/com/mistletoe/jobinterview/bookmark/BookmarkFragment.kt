@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.mistletoe.jobinterview.data.QnA
+import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.FragmentBookmarkBinding
 import com.mistletoe.jobinterview.qna.QnAListViewModel
 import kotlinx.coroutines.launch

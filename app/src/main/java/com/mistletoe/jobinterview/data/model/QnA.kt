@@ -1,4 +1,4 @@
-package com.mistletoe.jobinterview.data
+package com.mistletoe.jobinterview.data.model
 
 import android.os.Parcel
 import android.os.Parcelable

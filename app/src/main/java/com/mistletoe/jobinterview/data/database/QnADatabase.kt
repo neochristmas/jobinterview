@@ -1,9 +1,10 @@
-package com.mistletoe.jobinterview.data
+package com.mistletoe.jobinterview.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mistletoe.jobinterview.data.model.QnA
 
 @Database(entities = [QnA::class], version = 1)
 abstract class QnADatabase : RoomDatabase() {

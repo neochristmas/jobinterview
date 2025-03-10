@@ -1,18 +1,18 @@
 package com.mistletoe.jobinterview
 
 import android.app.Application
-import com.mistletoe.jobinterview.data.QnADao
-import com.mistletoe.jobinterview.data.QnADatabase
+import com.mistletoe.jobinterview.data.QnARepository
+import com.mistletoe.jobinterview.data.database.QnADatabase
 
 class JobInterviewApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        database = QnADatabase.getDatabase(this)
-        qnaDao = database.getQnADao()
+        val database = QnADatabase.getDatabase(this)
+        val qnaDao = database.getQnADao()
+        repository = QnARepository(qnaDao)
     }
 
     companion object {
-        lateinit var database: QnADatabase
-        lateinit var qnaDao: QnADao
+        lateinit var repository: QnARepository
     }
 }

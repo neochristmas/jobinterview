@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.mistletoe.jobinterview.data.QnA
+import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.ui.AddActivity
 import com.mistletoe.jobinterview.ui.PracticeActivity

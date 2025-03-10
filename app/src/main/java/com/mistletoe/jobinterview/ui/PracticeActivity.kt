@@ -5,7 +5,7 @@ import android.speech.tts.TextToSpeech
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mistletoe.jobinterview.R
-import com.mistletoe.jobinterview.data.QnA
+import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.ActivityPracticeBinding
 import java.util.Locale
 

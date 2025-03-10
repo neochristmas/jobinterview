@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mistletoe.jobinterview.data.QnA
+import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.ItemQnaBinding
 
 class BookmarkAdapter(private val listener: BookmarkClickListener) :

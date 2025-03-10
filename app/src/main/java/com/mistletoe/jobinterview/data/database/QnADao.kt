@@ -1,10 +1,11 @@
-package com.mistletoe.jobinterview.data
+package com.mistletoe.jobinterview.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.mistletoe.jobinterview.data.model.QnA
 
 @Dao
 interface QnADao {
