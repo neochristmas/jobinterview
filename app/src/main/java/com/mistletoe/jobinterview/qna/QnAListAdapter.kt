@@ -60,17 +60,25 @@ class QnAListAdapter(
         binding.apply {
             textTitle.text = parentList[groupPosition]
 
+            if (isExpanded) {
+                buttonArrow.setImageResource(R.drawable.ic_arrow_up)
+            } else {
+                buttonArrow.setImageResource(R.drawable.ic_arrow_down)
+            }
+
             buttonArrow.setOnClickListener {
                 Log.d("IJ", "Clicked...? $isExpanded")
                 if (isExpanded) {
-                    buttonArrow.setImageResource(R.drawable.ic_arrow_up)
-                    qnaListBinding.expandCategory.collapseGroup(groupPosition) // 그룹이 열려있으면 닫기
+                    qnaListBinding.expandCategory.collapseGroup(groupPosition)
                 } else {
-                    binding.buttonArrow.setImageResource(R.drawable.ic_arrow_down)
-                    qnaListBinding.expandCategory.expandGroup(groupPosition) // 그룹이 닫혀있으면 열기
+                    qnaListBinding.expandCategory.expandGroup(groupPosition)
                 }
-//            setArrow(binding, isExpanded)
 
+                buttonArrow.setImageResource(
+                    if (isExpanded) R.drawable.ic_arrow_down else R.drawable.ic_arrow_up
+                )
+
+                listener.updateScreenHeight(groupPosition)
             }
 
             buttonAdd.setOnClickListener {
@@ -83,8 +91,6 @@ class QnAListAdapter(
 
             return root
         }
-
-
     }
 
     override fun getChildView(
@@ -123,14 +129,6 @@ class QnAListAdapter(
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
 
-    private fun setArrow(binding: ItemCategoryBinding, isExpanded: Boolean) {
-        if (isExpanded) {
-            binding.buttonArrow.setImageResource(R.drawable.ic_arrow_up)
-        } else {
-            binding.buttonArrow.setImageResource(R.drawable.ic_arrow_down)
-        }
-    }
-
     fun updateData(newParentList: List<String>, newChildList: HashMap<String, List<QnA>>) {
         parentList = newParentList
         childList = newChildList
@@ -145,5 +143,7 @@ class QnAListAdapter(
         fun onBookmarkUpdated(qna: QnA)
 
         fun onQnADeleted(qna: QnA)
+
+        fun updateScreenHeight(groupPosition: Int)
     }
 }

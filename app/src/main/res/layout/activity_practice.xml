@@ -48,7 +48,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_question"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="550dp"
         android:layout_marginTop="5dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
@@ -70,7 +70,7 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@string/item_q"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,12 +79,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/text_q"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/text_q"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_q"
                 app:layout_constraintWidth_percent="0.85"
                 tools:text="What is Android?" />
 
@@ -96,10 +96,10 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@string/item_a"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/text_q"
                 app:layout_constraintStart_toStartOf="@id/text_q"
-                app:layout_constraintTop_toBottomOf="@id/text_q" />
+                app:layout_constraintTop_toBottomOf="@id/text_question" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_hiding"
@@ -108,10 +108,9 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="4dp"
                 app:cardCornerRadius="10dp"
-                app:layout_constraintHeight_percent="0.9"
+                app:layout_constraintBottom_toBottomOf="@id/text_answer"
                 app:layout_constraintStart_toEndOf="@id/text_a"
-                app:layout_constraintTop_toBottomOf="@id/text_question"
-                app:layout_constraintTop_toTopOf="@id/text_a"
+                app:layout_constraintTop_toTopOf="@id/text_answer"
                 app:layout_constraintWidth_percent="0.9">
 
                 <TextView
@@ -119,10 +118,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-medium"
-                    android:padding="20dp"
                     android:text="@string/practice_show_answer"
                     android:textColor="@color/dark_blue"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -150,6 +148,7 @@
                 android:text="@string/practice_hide_the_answer"
                 android:textColor="@color/dark_grey"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="@id/text_answer"
                 app:layout_constraintTop_toBottomOf="@id/text_answer" />
 

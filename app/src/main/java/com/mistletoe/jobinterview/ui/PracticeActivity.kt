@@ -66,6 +66,8 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             textCurrentIndex.text =
                 getString(R.string.practice_current_index, currentIdx + 1, qnaList.size)
 
+            showCardHiding()
+
             // 첫 번째 아이템이면 이전 버튼 비활성화
             if (currentIdx > 0) {
                 buttonPrev.visibility = View.VISIBLE
@@ -112,13 +114,18 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             cardHiding.setOnClickListener {
                 cardHiding.visibility = View.INVISIBLE
-
+                textHideAnswer.visibility = View.VISIBLE
             }
 
             textHideAnswer.setOnClickListener {
-                cardHiding.visibility = View.VISIBLE
+                showCardHiding()
             }
         }
 
+    }
+
+    private fun showCardHiding() {
+        binding.cardHiding.visibility = View.VISIBLE
+        binding.textHideAnswer.visibility = View.INVISIBLE
     }
 }
