@@ -41,8 +41,8 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.BookmarkClickListener {
     }
 
     override fun onBookmarkUpdated(qna: QnA) {
-        viewModel.updateQnA(qna)
-        // TODO 두번 클릭해야 사라짐...
-        fetchBookmarkedQnAList()
+        viewModel.updateQnA(qna) {
+            fetchBookmarkedQnAList()
+        }
     }
 }

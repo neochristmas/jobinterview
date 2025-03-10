@@ -15,9 +15,10 @@ class QnAListViewModel : ViewModel() {
         return qnaList
     }
 
-    fun updateQnA(qna: QnA) {
+    fun updateQnA(qna: QnA, onUpdateCompleted: () -> Unit) {
         viewModelScope.launch {
             repository.updateQnA(qna)
+            onUpdateCompleted()
         }
     }
 

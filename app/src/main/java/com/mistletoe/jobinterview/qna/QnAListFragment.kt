@@ -145,7 +145,9 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
     override fun onBookmarkUpdated(qna: QnA) {
         Log.d("IJ", "Update bookmark...")
-        viewModel.updateQnA(qna)
+        viewModel.updateQnA(qna) {
+            setQnAList()
+        }
     }
 
     override fun onQnADeleted(qna: QnA) {
