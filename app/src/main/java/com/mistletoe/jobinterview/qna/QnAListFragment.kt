@@ -52,14 +52,19 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
                 "Android" to qnaList.filter { it.tag == "Android" },
             )
 
-            adapter = QnAListAdapter(
-                requireContext(),
-                parentList,
-                childList,
-                binding,
-                this@QnAListFragment
-            )
-            binding.expandCategory.setAdapter(adapter)
+            if (!::adapter.isInitialized) {
+                adapter = QnAListAdapter(
+                    requireContext(),
+                    parentList,
+                    childList,
+                    binding,
+                    this@QnAListFragment
+                )
+                binding.expandCategory.setAdapter(adapter)
+            } else {
+                adapter.updateData(parentList, childList)
+            }
+
         }
 
     }

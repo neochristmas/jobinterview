@@ -14,8 +14,8 @@ import com.mistletoe.jobinterview.databinding.ItemQnaBinding
 
 class QnAListAdapter(
     private val context: Context,
-    private val parentList: List<String>,
-    private val childList: HashMap<String, List<QnA>>,
+    private var parentList: List<String>,
+    private var childList: HashMap<String, List<QnA>>,
     private val qnaListBinding: FragmentQnalistBinding,
     private val listener: ItemClickListener
 ) : BaseExpandableListAdapter() {
@@ -129,6 +129,12 @@ class QnAListAdapter(
         } else {
             binding.buttonArrow.setImageResource(R.drawable.ic_arrow_down)
         }
+    }
+
+    fun updateData(newParentList: List<String>, newChildList: HashMap<String, List<QnA>>) {
+        parentList = newParentList
+        childList = newChildList
+        notifyDataSetChanged()
     }
 
     interface ItemClickListener {
