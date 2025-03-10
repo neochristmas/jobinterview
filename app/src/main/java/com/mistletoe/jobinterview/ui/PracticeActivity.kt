@@ -27,31 +27,7 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         qnaList = intent.getParcelableArrayListExtra("qna_list") ?: arrayListOf()
 
         updateUI()
-
-        // 왼쪽(이전) 버튼 클릭 시
-        binding.buttonPrev.setOnClickListener {
-            if (currentIdx > 0) {
-                currentIdx--
-                updateUI()
-            }
-        }
-
-        // 오른쪽(다음) 버튼 클릭 시
-        binding.buttonNext.setOnClickListener {
-            if (currentIdx < qnaList.size - 1) {
-                currentIdx++
-                updateUI()
-            }
-        }
-
-
-        binding.buttonPlay.setOnClickListener {
-            speakOut()
-        }
-
-        binding.buttonComplete.setOnClickListener {
-            finish()
-        }
+        setButtons()
     }
 
     override fun onInit(status: Int) {
@@ -83,23 +59,66 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun updateUI() {
         val currentQnA = qnaList[currentIdx]
-        binding.textQuestion.text = currentQnA.question
-        binding.textAnswer.text = currentQnA.answer
-        binding.textCurrentIndex.text =
-            getString(R.string.practice_current_index, currentIdx + 1, qnaList.size)
 
-        // 첫 번째 아이템이면 이전 버튼 비활성화
-        if (currentIdx > 0) {
-            binding.buttonPrev.visibility = View.VISIBLE
-        } else {
-            binding.buttonPrev.visibility = View.INVISIBLE
+        binding.apply {
+            textQuestion.text = currentQnA.question
+            textAnswer.text = currentQnA.answer
+            textCurrentIndex.text =
+                getString(R.string.practice_current_index, currentIdx + 1, qnaList.size)
+
+            // 첫 번째 아이템이면 이전 버튼 비활성화
+            if (currentIdx > 0) {
+                buttonPrev.visibility = View.VISIBLE
+            } else {
+                buttonPrev.visibility = View.INVISIBLE
+            }
+
+            // 마지막 아이템이면 다음 버튼 비활성화
+            if (currentIdx < qnaList.size - 1) {
+                buttonNext.visibility = View.VISIBLE
+            } else {
+                buttonNext.visibility = View.INVISIBLE
+            }
         }
 
-        // 마지막 아이템이면 다음 버튼 비활성화
-        if (currentIdx < qnaList.size - 1) {
-            binding.buttonNext.visibility = View.VISIBLE
-        } else {
-            binding.buttonNext.visibility = View.INVISIBLE
+    }
+
+    private fun setButtons() {
+        binding.apply {
+            // 왼쪽(이전) 버튼 클릭 시
+            buttonPrev.setOnClickListener {
+                if (currentIdx > 0) {
+                    currentIdx--
+                    updateUI()
+                }
+            }
+
+            // 오른쪽(다음) 버튼 클릭 시
+            buttonNext.setOnClickListener {
+                if (currentIdx < qnaList.size - 1) {
+                    currentIdx++
+                    updateUI()
+                }
+            }
+
+
+            buttonPlay.setOnClickListener {
+                speakOut()
+            }
+
+            buttonComplete.setOnClickListener {
+                finish()
+            }
+
+            cardHiding.setOnClickListener {
+                cardHiding.visibility = View.INVISIBLE
+
+            }
+
+            textHideAnswer.setOnClickListener {
+                cardHiding.visibility = View.VISIBLE
+            }
         }
+
     }
 }
