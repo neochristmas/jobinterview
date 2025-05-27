@@ -20,17 +20,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/button_pause"
+        android:id="@+id/button_end"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:background="@null"
-        android:contentDescription="@string/desc_pause"
+        android:contentDescription="@string/to_the_end"
         android:padding="0dp"
-        android:src="@drawable/ic_pause"
-        android:visibility="gone"
+        android:src="@drawable/ic_end"
         app:layout_constraintStart_toEndOf="@id/button_play"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/button_play" />
 
     <ImageButton
         android:id="@+id/button_prev"

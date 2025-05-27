@@ -85,6 +85,11 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     }
 
+    private fun setEndIdx() {
+        currentIdx = qnaList.size - 1
+        updateUI()
+    }
+
     private fun setButtons() {
         binding.apply {
             // 왼쪽(이전) 버튼 클릭 시
@@ -106,6 +111,10 @@ class PracticeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             buttonPlay.setOnClickListener {
                 speakOut()
+            }
+
+            buttonEnd.setOnClickListener {
+                setEndIdx()
             }
 
             buttonComplete.setOnClickListener {
