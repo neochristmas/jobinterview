@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.mistletoe.jobinterview.data.model.QnA
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QnADao {
@@ -21,4 +22,7 @@ interface QnADao {
 
     @Delete
     suspend fun deleteQnA(qna: QnA)
+
+    @Query("SELECT * FROM qna WHERE isBookmarked = 1")
+    fun getBookmarkedQnAs(): Flow<List<QnA>>
 }
