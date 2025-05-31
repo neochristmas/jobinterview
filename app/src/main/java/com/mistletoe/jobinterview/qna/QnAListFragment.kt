@@ -10,13 +10,11 @@ import android.widget.AbsListView
 import android.widget.ExpandableListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mistletoe.jobinterview.data.model.QnA
 import com.mistletoe.jobinterview.databinding.FragmentQnalistBinding
 import com.mistletoe.jobinterview.ui.AddActivity
 import com.mistletoe.jobinterview.ui.PracticeActivity
-import kotlinx.coroutines.launch
 
 class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
@@ -41,35 +39,35 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        setQnAList()
+//        setQnAList()
     }
 
-    private fun setQnAList() {
-        lifecycleScope.launch {
-            qnaList = viewModel.fetchQnAs()
-
-            val parentList = listOf("Tell me about yourself", "Android")
-            val childList = hashMapOf(
-                "Tell me about yourself" to qnaList.filter { it.tag == "Tell me about yourself" },
-                "Android" to qnaList.filter { it.tag == "Android" },
-            )
-
-            if (!::adapter.isInitialized) {
-                adapter = QnAListAdapter(
-                    requireContext(),
-                    parentList,
-                    childList,
-                    binding,
-                    this@QnAListFragment
-                )
-                binding.expandCategory.setAdapter(adapter)
-            } else {
-                adapter.updateData(parentList, childList)
-            }
-
-        }
-
-    }
+//    private fun setQnAList() {
+//        lifecycleScope.launch {
+//            qnaList = viewModel.fetchQnAs()
+//
+//            val parentList = listOf("Tell me about yourself", "Android")
+//            val childList = hashMapOf(
+//                "Tell me about yourself" to qnaList.filter { it.tag == "Tell me about yourself" },
+//                "Android" to qnaList.filter { it.tag == "Android" },
+//            )
+//
+//            if (!::adapter.isInitialized) {
+//                adapter = QnAListAdapter(
+//                    requireContext(),
+//                    parentList,
+//                    childList,
+//                    binding,
+//                    this@QnAListFragment
+//                )
+//                binding.expandCategory.setAdapter(adapter)
+//            } else {
+//                adapter.updateData(parentList, childList)
+//            }
+//
+//        }
+//
+//    }
 
     private fun setListViewHeightBasedOnChildren(listView: ExpandableListView, group: Int) {
 //        val listAdapter = listView.expandableListAdapter
@@ -145,9 +143,9 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
 
     override fun onBookmarkUpdated(qna: QnA) {
         Log.d("IJ", "Update bookmark...")
-        viewModel.updateQnA(qna) {
-            setQnAList()
-        }
+//        viewModel.updateQnA(qna) {
+//            setQnAList()
+//        }
     }
 
     override fun onQnADeleted(qna: QnA) {
@@ -161,7 +159,7 @@ class QnAListFragment : Fragment(), QnAListAdapter.ItemClickListener {
             .setPositiveButton("Delete") { dialog, _ ->
                 viewModel.deleteQnA(qna)
                 dialog.dismiss()
-                setQnAList()
+//                setQnAList()
             }
             .show()
     }

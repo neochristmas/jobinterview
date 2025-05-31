@@ -10,7 +10,7 @@ class QnARepository(private val qnADao: QnADao) {
         qnADao.createQnA(qna)
     }
 
-    suspend fun getQnAList(): List<QnA> {
+    fun getQnAList(): Flow<List<QnA>> {
         return qnADao.getAllQnAs()
     }
 

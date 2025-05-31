@@ -15,7 +15,7 @@ interface QnADao {
     suspend fun createQnA(qna: QnA)
 
     @Query("SELECT * FROM qna")
-    suspend fun getAllQnAs(): List<QnA>
+    fun getAllQnAs(): Flow<List<QnA>>
 
     @Update
     suspend fun updateQnA(qna: QnA)

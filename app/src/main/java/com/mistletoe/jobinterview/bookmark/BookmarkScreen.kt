@@ -1,5 +1,6 @@
 package com.mistletoe.jobinterview.bookmark
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,8 +20,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.data.model.QnA
 
 @Composable
@@ -30,7 +36,11 @@ fun BookmarkScreen(
     val qnaList by viewModel.bookmarkedQnAs.collectAsState()
 
     Scaffold { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(20.dp)
+        ) {
             TitleText()
             LazyColumn {
                 items(qnaList,
@@ -49,7 +59,12 @@ fun BookmarkScreen(
 
 @Composable
 fun TitleText() {
-    Text("Bookmark List")
+    Text(
+        text = stringResource(R.string.bookmark_list),
+        fontSize = 24.sp,
+        color = Color.Black,
+        fontFamily = FontFamily.SansSerif
+    )
 }
 
 @Composable
@@ -73,9 +88,13 @@ fun BookmarkItem(qna: QnA, onBookmarkClick: (QnA) -> Unit) {
             }
         }
         Icon(
-            Icons.Default.Favorite, contentDescription = null,
+            imageVector = if (qna.isBookmarked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            contentDescription = null,
             modifier = Modifier
-                .clickable { onBookmarkClick(qna.copy(isBookmarked = !qna.isBookmarked)) }
+                .clickable {
+                    Log.d("BookmarkItem", "Icon clicked for qnaId: ${qna.isBookmarked}")
+                    onBookmarkClick(qna.copy(isBookmarked = !qna.isBookmarked))
+                }
                 .padding(start = 8.dp),
             tint = Color.Blue
         )

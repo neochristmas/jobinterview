@@ -30,19 +30,19 @@ class BookmarkFragment : Fragment(), BookmarkAdapter.BookmarkClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerBookmarks.adapter = adapter
-        fetchBookmarkedQnAList()
+//        fetchBookmarkedQnAList()
     }
 
-    private fun fetchBookmarkedQnAList() {
-        lifecycleScope.launch {
-            val qnaList = viewModel.fetchQnAs()
-            adapter.setQnAList(qnaList)
-        }
-    }
+//    private fun fetchBookmarkedQnAList() {
+//        lifecycleScope.launch {
+//            val qnaList = viewModel.fetchQnAs()
+//            adapter.setQnAList(qnaList)
+//        }
+//    }
 
     override fun onBookmarkUpdated(qna: QnA) {
-        viewModel.updateQnA(qna) {
-            fetchBookmarkedQnAList()
-        }
+//        viewModel.updateQnA(qna) {
+//            fetchBookmarkedQnAList()
+//        }
     }
 }
