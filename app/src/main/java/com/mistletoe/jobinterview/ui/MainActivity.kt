@@ -21,111 +21,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mistletoe.jobinterview.bookmark.BookmarkScreen
 import com.mistletoe.jobinterview.qna.QnAListScreen
 
 class MainActivity : AppCompatActivity() {
-
-//    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             MaterialTheme {
-                MainScreen()
+                val navController = rememberNavController()  // 한 번만 생성
+                MainScreen(navController)
             }
         }
-
-//        binding = ActivityMainBinding.inflate(layoutInflater).apply {
-//            setContentView(root)
-//
-//            bottomNav.setOnItemSelectedListener(this@MainActivity)
-//        }
     }
 
-//    private fun onQnaListClicked(): Boolean {
-//        supportFragmentManager.commit {
-//            replace(R.id.frame_content, QnAListFragment())
-//        }
-//        return true
-//    }
-//
-//    private fun onBookmarkClicked(): Boolean {
-//        supportFragmentManager.commit {
-//            replace(R.id.frame_content, BookmarkFragment())
-//        }
-//        return true
-//    }
-//
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-//        R.id.nav_list -> onQnaListClicked()
-//        R.id.nav_bookmark -> onBookmarkClicked()
-//        else -> false
-//    }
-
     @Composable
-    fun MainScreen() {
-        val navController = rememberNavController()
+    fun MainScreen(navController: NavHostController) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
+        val showBottomBar = currentRoute == "qna" || currentRoute == "bookmark"
 
         Scaffold(
             bottomBar = {
-                HorizontalDivider(
-                    color = Color.Black.copy(alpha = 0.1f),
-                    thickness = 1.dp,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                NavigationBar(
-                    containerColor = Color.Transparent
-                ) {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentRoute = navBackStackEntry?.destination?.route
-
-                    NavigationBarItem(
-                        selected = currentRoute == "qna",
-                        onClick = {
-                            if (navController.currentDestination?.route != "qna") { // 중복 화면 스택 쌓임 방지
-                                navController.navigate("qna") {
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        },
-                        icon = { Icon(Icons.Default.Menu, contentDescription = null) },
-                        label = { Text("QnA") },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color.Blue,
-                            unselectedIconColor = Color.Gray,
-                            selectedTextColor = Color.Blue,
-                            unselectedTextColor = Color.Gray,
-                            indicatorColor = Color.Transparent
-                        )
-                    )
-                    NavigationBarItem(
-                        selected = currentRoute == "bookmark",
-                        onClick = {
-                            if (navController.currentDestination?.route != "bookmark") {
-                                navController.navigate("bookmark") {
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        },
-                        icon = { Icon(Icons.Default.Favorite, contentDescription = null) },
-                        label = { Text("Bookmark") },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color.Blue,
-                            unselectedIconColor = Color.Gray,
-                            selectedTextColor = Color.Blue,
-                            unselectedTextColor = Color.Gray,
-                            indicatorColor = Color.Transparent
-                        )
-                    )
-                }
+                if (showBottomBar) BottomNavigationBar(navController, currentRoute!!)
             }
         ) { innerPadding ->
             NavHost(
@@ -133,9 +61,70 @@ class MainActivity : AppCompatActivity() {
                 startDestination = "qna",
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable("qna") { QnAListScreen() }
+                composable("qna") { QnAListScreen(navController) }
                 composable("bookmark") { BookmarkScreen() }
+                composable(
+                    route = "add/{category}",
+                    arguments = listOf(navArgument("category") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val category = backStackEntry.arguments?.getString("category") ?: ""
+                    AddScreen(navController, category)
+                }
+                composable("practice") { PracticeScreen(navController) }
             }
+        }
+    }
+
+    @Composable
+    private fun BottomNavigationBar(navController: NavHostController, currentRoute: String) {
+        HorizontalDivider(
+            color = Color.Black.copy(alpha = 0.1f),
+            thickness = 1.dp,
+            modifier = Modifier.fillMaxWidth()
+        )
+        NavigationBar(
+            containerColor = Color.Transparent
+        ) {
+            NavigationBarItem(
+                selected = currentRoute == "qna",
+                onClick = {
+                    if (navController.currentDestination?.route != "qna") { // 중복 화면 스택 쌓임 방지
+                        navController.navigate("qna") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
+                icon = { Icon(Icons.Default.Menu, contentDescription = null) },
+                label = { Text("QnA") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.Blue,
+                    unselectedIconColor = Color.Gray,
+                    selectedTextColor = Color.Blue,
+                    unselectedTextColor = Color.Gray,
+                    indicatorColor = Color.Transparent
+                )
+            )
+            NavigationBarItem(
+                selected = currentRoute == "bookmark",
+                onClick = {
+                    if (navController.currentDestination?.route != "bookmark") {
+                        navController.navigate("bookmark") {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
+                icon = { Icon(Icons.Default.Favorite, contentDescription = null) },
+                label = { Text("Bookmark") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color.Blue,
+                    unselectedIconColor = Color.Gray,
+                    selectedTextColor = Color.Blue,
+                    unselectedTextColor = Color.Gray,
+                    indicatorColor = Color.Transparent
+                )
+            )
         }
     }
 

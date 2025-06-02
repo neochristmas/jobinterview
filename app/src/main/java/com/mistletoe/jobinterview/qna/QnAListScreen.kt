@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,11 +28,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.bookmark.BookmarkItem
 
 @Composable
-fun QnAListScreen() {
+fun QnAListScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +41,7 @@ fun QnAListScreen() {
             .padding(20.dp)
     ) {
         TitleText()
-        QnaExpandableList()
+        QnaExpandableList(navController)
     }
 
 }
@@ -54,7 +57,7 @@ fun TitleText() {
 }
 
 @Composable
-fun QnaExpandableList(viewModel: QnAListViewModel = viewModel()) {
+fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewModel = viewModel()) {
     val qnaList by viewModel.qnaList.collectAsState()
 
     // 카테고리 별 필터링
@@ -79,14 +82,30 @@ fun QnaExpandableList(viewModel: QnAListViewModel = viewModel()) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = category, fontSize = 18.sp, color = Color.DarkGray)
-                    Icon(
-                        imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clickable {
-                                expandedStates[category] = !expanded
-                            }
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)  // 아이콘 사이 간격 8dp
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = null,
+                            modifier = Modifier.clickable {
+                                navController.navigate("add/$category")
+                            })
+                        Icon(
+                            Icons.Default.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.clickable {
+                                navController.navigate("practice")
+                            })
+                        Icon(
+                            imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .clickable {
+                                    expandedStates[category] = !expanded
+                                }
+                        )
+                    }
                 }
                 if (expanded) {
                     qaList.forEach { qna ->
