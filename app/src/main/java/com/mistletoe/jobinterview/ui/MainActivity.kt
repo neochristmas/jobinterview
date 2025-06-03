@@ -3,6 +3,10 @@ package com.mistletoe.jobinterview.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -23,14 +27,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.mistletoe.jobinterview.bookmark.BookmarkScreen
 import com.mistletoe.jobinterview.qna.QnAListScreen
+import com.mistletoe.jobinterview.qna.QnAListViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,22 +64,7 @@ class MainActivity : AppCompatActivity() {
                 if (showBottomBar) BottomNavigationBar(navController, currentRoute!!)
             }
         ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = "qna",
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                composable("qna") { QnAListScreen(navController) }
-                composable("bookmark") { BookmarkScreen() }
-                composable(
-                    route = "add/{category}",
-                    arguments = listOf(navArgument("category") { type = NavType.StringType })
-                ) { backStackEntry ->
-                    val category = backStackEntry.arguments?.getString("category") ?: ""
-                    AddScreen(navController, category)
-                }
-                composable("practice") { PracticeScreen(navController) }
-            }
+            AppNav(innerPadding, navController)
         }
     }
 
@@ -125,6 +118,37 @@ class MainActivity : AppCompatActivity() {
                     indicatorColor = Color.Transparent
                 )
             )
+        }
+    }
+
+    @OptIn(ExperimentalAnimationApi::class)
+    @Composable
+    fun AppNav(innerPadding: PaddingValues, navController: NavHostController) {
+        val viewModel: QnAListViewModel = hiltViewModel()
+
+        AnimatedNavHost(
+            navController = navController,
+            startDestination = "qna",
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None },
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable("qna") {
+                QnAListScreen(navController, viewModel)
+            }
+            composable("bookmark") { BookmarkScreen() }
+            composable(
+                route = "add/{category}",
+                arguments = listOf(navArgument("category") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category") ?: ""
+                AddScreen(navController, category)
+            }
+            composable("practice") {
+                PracticeScreen(navController, viewModel)
+            }
         }
     }
 

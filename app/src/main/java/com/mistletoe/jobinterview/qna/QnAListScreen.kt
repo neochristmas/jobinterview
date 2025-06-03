@@ -27,13 +27,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.bookmark.BookmarkItem
 
 @Composable
-fun QnAListScreen(navController: NavHostController) {
+fun QnAListScreen(navController: NavHostController, viewModel: QnAListViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +40,7 @@ fun QnAListScreen(navController: NavHostController) {
             .padding(20.dp)
     ) {
         TitleText()
-        QnaExpandableList(navController)
+        QnaExpandableList(navController, viewModel)
     }
 
 }
@@ -57,7 +56,7 @@ fun TitleText() {
 }
 
 @Composable
-fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewModel = viewModel()) {
+fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewModel) {
     val qnaList by viewModel.qnaList.collectAsState()
 
     // 카테고리 별 필터링
@@ -95,6 +94,7 @@ fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewMo
                             Icons.Default.PlayArrow,
                             contentDescription = null,
                             modifier = Modifier.clickable {
+                                viewModel.setQnAList(qaList)
                                 navController.navigate("practice")
                             })
                         Icon(
