@@ -10,12 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,32 +36,45 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun AddScreen(
-    navController: NavHostController, category: String, viewModel: AddViewModel = viewModel(),
+    navController: NavHostController,
+    category: String,
+    viewModel: AddViewModel = viewModel(),
 ) {
     var questionInput by remember { mutableStateOf("") }
     var answerInput by remember { mutableStateOf("") }
 
     val isBothFilled = questionInput.isNotBlank() && answerInput.isNotBlank()
 
-    Scaffold(bottomBar = {
-        BottomBarButtons(navController, enabled = isBothFilled, onClick = {
-            Log.d("Input Test...", "$questionInput, $answerInput")
-            viewModel.createQnA(
-                tag = category,
-                question = questionInput,
-                answer = answerInput,
-            )
-            navController.popBackStack()
-        })
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            @OptIn(ExperimentalMaterial3Api::class)
+            (TopAppBar(
+                title = { Text("Add") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            ))
+        },
+        bottomBar = {
+            BottomBarButtons(navController, enabled = isBothFilled, onClick = {
+                Log.d("Input Test...", "$questionInput, $answerInput")
+                viewModel.createQnA(
+                    tag = category,
+                    question = questionInput,
+                    answer = answerInput,
+                )
+                navController.popBackStack()
+            })
+        }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
                 .padding(innerPadding)
-                .padding(20.dp)
+                .padding(horizontal = 24.dp)
         ) {
-            Text("Add QnA")
             Text("Category: $category")
             QuestionInput(value = questionInput, onValueChange = {
                 questionInput = it
@@ -101,7 +120,7 @@ private fun BottomBarButtons(
                 shape = RoundedCornerShape(0.dp),
                 elevation = ButtonDefaults.buttonElevation(0.dp)
             ) {
-                Text("Cancel", color = Color.Blue)
+                Text("CANCEL", color = Color.Blue)
             }
         }
 
@@ -118,7 +137,7 @@ private fun BottomBarButtons(
             shape = RoundedCornerShape(0.dp),
             elevation = ButtonDefaults.buttonElevation(0.dp)
         ) {
-            Text("Save", color = Color.White)
+            Text("SAVE", color = Color.White)
         }
     }
 }
