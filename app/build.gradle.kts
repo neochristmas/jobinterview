@@ -69,7 +69,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.fragment.ktx)
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -79,7 +78,7 @@ dependencies {
 
     implementation(libs.accompanist.navigation.animation)
 
-    // Room dependencies
+    // Room Dependencies
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
     annotationProcessor(libs.room.compiler)
@@ -89,5 +88,10 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
+
+    // Unit Test
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.kotlinx.coroutines.test)
 
 }
