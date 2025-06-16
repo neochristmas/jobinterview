@@ -3,8 +3,11 @@ package com.mistletoe.jobinterview.data
 import com.mistletoe.jobinterview.data.database.QnADao
 import com.mistletoe.jobinterview.data.model.QnA
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class QnARepository(private val qnADao: QnADao) {
+class QnARepository @Inject constructor(
+    private val qnADao: QnADao
+) {
 
     suspend fun createQnA(qna: QnA) {
         qnADao.createQnA(qna)

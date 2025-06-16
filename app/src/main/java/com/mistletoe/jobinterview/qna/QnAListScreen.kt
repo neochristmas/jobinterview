@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.bookmark.BookmarkItem
@@ -57,7 +58,7 @@ fun TitleText() {
 
 @Composable
 fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewModel) {
-    val qnaList by viewModel.qnaList.collectAsState()
+    val qnaList by viewModel.qnaList.collectAsStateWithLifecycle()
 
     // 카테고리 별 필터링
     val parentList = listOf("Tell me about yourself", "Android")

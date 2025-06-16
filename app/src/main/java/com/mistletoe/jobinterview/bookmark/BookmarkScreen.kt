@@ -24,16 +24,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mistletoe.jobinterview.R
 import com.mistletoe.jobinterview.data.model.QnA
 
 @Composable
 fun BookmarkScreen(
-    viewModel: BookmarkViewModel = viewModel(),
+    viewModel: BookmarkViewModel = hiltViewModel(),
 ) {
-    // ViewModel에서 Flow -> Compose State 변환
-    val qnaList by viewModel.bookmarkedQnAs.collectAsState()
+    // ViewModel 에서 Flow -> Compose State 변환
+    val qnaList by viewModel.bookmarkList.collectAsState()
 
     Scaffold { innerPadding ->
         Column(
