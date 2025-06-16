@@ -1,6 +1,7 @@
 package com.mistletoe.jobinterview.bookmark
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -69,6 +71,8 @@ fun TitleText() {
 
 @Composable
 fun BookmarkItem(qna: QnA, onBookmarkClick: (QnA) -> Unit) {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,6 +98,14 @@ fun BookmarkItem(qna: QnA, onBookmarkClick: (QnA) -> Unit) {
                 .clickable {
                     Log.d("BookmarkItem", "Icon clicked for qnaId: ${qna.isBookmarked}")
                     onBookmarkClick(qna.copy(isBookmarked = !qna.isBookmarked))
+
+                    val toastMessage = if (qna.isBookmarked) {
+                        "Removed from bookmarks."
+                    } else {
+                        "Bookmarked."
+                    }
+
+                    Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
                 }
                 .padding(start = 8.dp),
             tint = Color.Blue
