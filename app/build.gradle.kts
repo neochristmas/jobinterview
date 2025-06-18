@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.hilt)
     id("org.jetbrains.kotlin.kapt")
+    id("com.apollographql.apollo") version "4.3.0"
 }
 
 android {
@@ -49,6 +50,12 @@ android {
     }
 }
 
+apollo {
+    service("service") {
+        packageName.set("com.mistletoe")
+    }
+}
+
 kapt {
     correctErrorTypes = true
 }
@@ -69,6 +76,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.runtime.livedata)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -93,5 +101,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    // Apollo
+    implementation(libs.apollographql.apollo.runtime)
 
 }

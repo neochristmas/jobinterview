@@ -1,0 +1,15 @@
+query GetQnAs {
+    qnas {
+        qna_id
+        tag
+        question
+        answer
+        is_bookmarked
+    }
+}
+
+mutation AddQna($tag: String!, $question: String!, $answer: String!, $is_bookmarked: Boolean!) {
+    addQna(tag: $tag, question: $question, answer: $answer, is_bookmarked: $is_bookmarked) {
+        qna_id
+    }
+}

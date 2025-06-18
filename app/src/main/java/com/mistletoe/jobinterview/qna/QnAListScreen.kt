@@ -1,5 +1,6 @@
 package com.mistletoe.jobinterview.qna
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -58,7 +59,12 @@ fun TitleText() {
 
 @Composable
 fun QnaExpandableList(navController: NavHostController, viewModel: QnAListViewModel) {
-    val qnaList by viewModel.qnaList.collectAsStateWithLifecycle()
+    val qnaList by viewModel.qnas.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchQnAs()
+        Log.d("QnAListScreen", "Data loading...")
+    }
 
     // 카테고리 별 필터링
     val parentList = listOf("Tell me about yourself", "Android")
